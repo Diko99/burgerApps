@@ -1,24 +1,9 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import OnBoardingScreen from './src/screens/onBoardingScreen';
+import React from 'react'
+// import OnBoardingScreen from './src/screens/onBoardingScreen'
+import LoginScreen from './src/screens/loginScreen'
 
 const App = () => {
-  return <OnBoardingScreen />;
-};
+  return <LoginScreen />
+}
 
-export default App;
+export default App
