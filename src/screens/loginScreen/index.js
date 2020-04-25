@@ -8,14 +8,20 @@ import {
   Image,
   YellowBox,
   TouchableHighlight,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import CheckBox from 'react-native-check-box'
+
 import InputBox from '../../components/inputBox'
 
 class LoginScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isChecked: false
     }
     YellowBox.ignoreWarnings(['FlatList: Calling `getNode()`'])
   }
@@ -48,7 +54,7 @@ class LoginScreen extends Component {
         {this.renderLogo()}
         {this.renderLead()}
         {this.renderForm()}
-        {/* {this.renderStartButton()} */}
+        {this.renderFooter()}
       </ImageBackground>
     )
   }
@@ -82,57 +88,143 @@ class LoginScreen extends Component {
     return (
       <View style={styles['onboarding__formInput']}>
         {this.renderInputBox()}
+        {this.renderOption()}
+        {this.renderSubmitButton()}
+        {this.renderSignUp()}
       </View>
     )
   }
 
-  renderInputBox = (props) => {
+  renderInputBox = () => {
+    const inputBoxArr = [
+      {
+        placeholder: 'Email Address',
+        icon: {
+          type: EvilIcons,
+          name: 'envelope',
+          color: '727c8e',
+          size: 22,
+          style: styles['onboarding__input__icon']
+        },
+        containerStyle: {}
+      },
+      {
+        placeholder: 'Password',
+        icon: {
+          type: EvilIcons,
+          name: 'lock',
+          color: '727c8e',
+          size: 25,
+          style: [
+            styles['onboarding__input__icon'],
+            { marginLeft: 17 }
+          ]
+        },
+        containerStyle: { marginTop: 17 }
+      }
+    ]
     return (
       <FlatList
-        data={inputBox}
-        renderItem={({ item }) => <InputBox {...item} />}
-        keyExtractor={item => item.id}
+        data={inputBoxArr}
+        keyExtractor={(item, index) => item + index.toString() }
+        renderItem={({ item, index }) => <InputBox password={ index === 1} {...item} />}
       />
     )
   }
 
-  renderStartButton = () => {
+  renderOption = () => {
+    return (
+      <View style={styles['onboarding__option']}>
+        {this.renderOptRememberMe()}
+        {this.renderOptForgotPassword()}
+      </View>
+    )
+  }
+
+  renderOptRememberMe = () => {
+    const { isChecked } = this.state
+    return (
+      <CheckBox
+        style={{ flex: 1 }}
+        isChecked={isChecked}
+        rightText='Remember Me'
+        rightTextStyle={styles['onboarding__option__text']}
+        checkBoxColor='#ffffff'
+        unCheckedImage={
+          <MaterialIcons
+            name='radio-button-unchecked'
+            color='#ffffff'
+            size={20}
+          />
+        }
+        checkedImage={
+          <MaterialIcons
+            name='check-circle'
+            color='#ffffff'
+            size={20}
+          />
+        }
+        onClick={this.onRemember}
+      />
+    )
+  }
+
+  onRemember = () => {
+    this.setState(prevState => ({
+      isChecked: !prevState.isChecked
+    }))
+  }
+
+  renderOptForgotPassword = () => {
+    return (
+      <TouchableOpacity
+        onPress={() => {}}
+      >
+        <Text style={styles['onboarding__option__text']}>
+          Forgot Password?
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
+  renderSubmitButton = () => {
     return (
       <TouchableHighlight
         style={styles['onboarding__button']}
         activeOpacity={0.6}
         underlayColor="#ed941a"
         onPress={() => {}}>
-        <Text style={styles['onboarding__button__text']}> Login </Text>
+        <Text style={styles['onboarding__button__text']}> Log In </Text>
       </TouchableHighlight>
     )
   }
-}
 
-const inputBox = [
-  {
-    id: 1,
-    styleBox: 'container-email',
-    nameIcon: 'envelope',
-    colorIcon: '#727c8e',
-    size: 22,
-    styleIcon: 'icon',
-    placeholder: 'Email Address',
-    placeholderTextColor: '#727c8e',
-    styleTextInput: 'input-box-email'
-  },
-  {
-    id: 2,
-    styleBox: 'container-password',
-    nameIcon: 'lock',
-    colorIcon: '#727c8e',
-    size: 22,
-    styleIcon: 'icon',
-    placeholder: 'Confirm password',
-    placeholderTextColor: '#727c8e',
-    styleTextInput: 'input-box-password'
+  renderSignUp = () => {
+    return (
+      <TouchableOpacity
+        style={styles['onboarding__sign-up']}
+        onPress={() => {}}
+      >
+        <Text style={styles['onboarding__sign-up__text']}>
+          New user? Sign up
+        </Text>
+      </TouchableOpacity>
+    )
   }
-]
+
+  renderFooter = () => {
+    return (
+      <View style={styles['onboarding__footer']}>
+        <Text style={styles['onboarding__footer__text']}>
+          By signing up you indicate that you have read agreed to the Patch&nbsp;
+          <Text style={styles['onboarding__footer__text--underline']}>
+            Terms Of Service
+          </Text>
+        </Text>
+      </View>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   onboarding__bg: {
@@ -152,7 +244,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   onboarding__lead: {
-    marginTop: 40,
+    marginTop: 20,
     alignItems: 'center'
   },
   'onboarding__lead--h1': {
@@ -170,23 +262,65 @@ const styles = StyleSheet.create({
   },
   onboarding__formInput: {
     paddingHorizontal: 25,
-    marginTop: 40
+    marginTop: 10
   },
   onboarding__button: {
     backgroundColor: '#ff9f1c',
     paddingVertical: 12,
     borderRadius: 5,
-    marginHorizontal: 25,
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 25,
     includeFontPadding: false
   },
   onboarding__button__text: {
     color: 'white',
-    fontSize: 18,
-    fontFamily: 'Nunito-Bold',
+    fontSize: 16,
+    fontFamily: 'Nunito-Black',
     includeFontPadding: false
+  },
+  onboarding__input__icon: {
+    marginRight: 10,
+    marginLeft: 20
+  },
+  onboarding__option: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15
+  },
+  onboarding__option__text: {
+    fontSize: 12,
+    marginLeft: 5,
+    color: '#ffffff',
+    includeFontPadding: false
+  },
+  'onboarding__sign-up': {
+    marginTop: 20,
+    alignItems: 'center'
+  },
+  'onboarding__sign-up__text': {
+    fontSize: 14,
+    marginLeft: 5,
+    color: '#ff9f1c',
+    fontFamily: 'Nunito-SemiBold',
+    includeFontPadding: false
+  },
+  onboarding__footer: {
+    marginTop: 40,
+    alignItems: 'center'
+  },
+  onboarding__footer__text: {
+    color: '#ffffff',
+    width: 250,
+    fontFamily: 'Nunito-Regular',
+    fontSize: 12,
+    textAlign: 'center',
+    includeFontPadding: false
+  },
+  'onboarding__footer__text--underline': {
+    textDecorationLine: 'underline'
   }
+
 })
 
 export default LoginScreen

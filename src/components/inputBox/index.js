@@ -1,72 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, TextInput } from 'react-native'
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 const InputBox = (props) => {
   return (
-    <View style={styles[props.styleBox]}>
-      <EvilIcons
-        name={props.nameIcon}
-        color={props.colorIcon}
-        size={props.size}
-        style={styles[props.styleIcon]}
+    <View style={[
+      props.containerStyle,
+      styles['container']]
+    }>
+      <props.icon.type
+        name={props.icon.name}
+        color={props.icon.color}
+        size={props.icon.size}
+        style={props.icon.style}
       />
       <TextInput
         placeholder={props.placeholder}
-        placeholderTextColor={props.placeholderTextColor}
-        style={styles[props.styleTextInput]}
+        placeholderTextColor='#727c8e'
+        style={styles['input-box']}
+        secureTextEntry={props.password}
       />
     </View>
   )
 }
 
 InputBox.propTypes = {
-  styleBox: PropTypes.string,
-  nameIcon: PropTypes.string,
-  colorIcon: PropTypes.string,
-  styleIcon: PropTypes.string,
-  size: PropTypes.string,
+  icon: PropTypes.object,
+  password: PropTypes.bool,
   placeholder: PropTypes.string,
-  placeholderTextColor: PropTypes.string,
-  styleTextInput: PropTypes.string
+  containerStyle: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ])
 }
 
 export default InputBox
 
 const styles = StyleSheet.create({
-  'container-email': {
+  container: {
     borderRadius: 7,
     overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    backgroundColor: '#ffffff',
-    borderColor: 'red'
-
-  },
-  'container-password': {
-    borderRadius: 7,
-    marginVertical: 2,
-    overflow: 'hidden', // ketika keluar dari ukuran maka otomatis kehidden
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#ffffff'
   },
-  icon: {
-    marginRight: 10,
-    marginLeft: 20
-  },
-  'input-box-email': {
-    flex: 1,
-    height: 45,
-    fontFamily: 'Nunito-Regular',
-    fontSize: 14,
-    color: '#727c8e',
-    includeFontPadding: false,
-    paddingRight: 30
-  },
-  'input-box-password': {
+  'input-box': {
     flex: 1,
     height: 45,
     fontFamily: 'Nunito-Regular',
