@@ -7,7 +7,8 @@ import {
   StatusBar,
   Image,
   YellowBox,
-  TouchableHighlight
+  TouchableHighlight,
+  FlatList
 } from 'react-native'
 import InputBox from '../../components/inputBox'
 
@@ -47,7 +48,6 @@ class LoginScreen extends Component {
         {this.renderLogo()}
         {this.renderLead()}
         {this.renderForm()}
-        {this.renderForm()}
         {/* {this.renderStartButton()} */}
       </ImageBackground>
     )
@@ -86,8 +86,14 @@ class LoginScreen extends Component {
     )
   }
 
-  renderInputBox = () => {
-    return <InputBox />
+  renderInputBox = (props) => {
+    return (
+      <FlatList
+        data={inputBox}
+        renderItem={({ item }) => <InputBox {...item} />}
+        keyExtractor={item => item.id}
+      />
+    )
   }
 
   renderStartButton = () => {
@@ -97,11 +103,36 @@ class LoginScreen extends Component {
         activeOpacity={0.6}
         underlayColor="#ed941a"
         onPress={() => {}}>
-        <Text style={styles['onboarding__button__text']}> Get Start Here </Text>
+        <Text style={styles['onboarding__button__text']}> Login </Text>
       </TouchableHighlight>
     )
   }
 }
+
+const inputBox = [
+  {
+    id: 1,
+    styleBox: 'container-email',
+    nameIcon: 'envelope',
+    colorIcon: '#727c8e',
+    size: 22,
+    styleIcon: 'icon',
+    placeholder: 'Email Address',
+    placeholderTextColor: '#727c8e',
+    styleTextInput: 'input-box-email'
+  },
+  {
+    id: 2,
+    styleBox: 'container-password',
+    nameIcon: 'lock',
+    colorIcon: '#727c8e',
+    size: 22,
+    styleIcon: 'icon',
+    placeholder: 'Confirm password',
+    placeholderTextColor: '#727c8e',
+    styleTextInput: 'input-box-password'
+  }
+]
 
 const styles = StyleSheet.create({
   onboarding__bg: {
@@ -143,17 +174,17 @@ const styles = StyleSheet.create({
   },
   onboarding__button: {
     backgroundColor: '#ff9f1c',
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderRadius: 5,
-    marginHorizontal: 30,
+    marginHorizontal: 25,
     alignItems: 'center',
-    marginTop: 'auto',
-    marginBottom: 30
+    marginTop: 40,
+    includeFontPadding: false
   },
   onboarding__button__text: {
     color: 'white',
-    fontSize: 16,
-    fontFamily: 'Nunito-SemiBold',
+    fontSize: 18,
+    fontFamily: 'Nunito-Bold',
     includeFontPadding: false
   }
 })

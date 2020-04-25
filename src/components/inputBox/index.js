@@ -1,35 +1,53 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { View, StyleSheet, TextInput } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
-const InputBox = () => {
+const InputBox = (props) => {
   return (
-    <View style={styles['container']}>
-      <SingleInputBox />
-    </View>
-  )
-}
-const SingleInputBox = () => {
-  return (
-    <View style={styles['container']}>
+    <View style={styles[props.styleBox]}>
       <EvilIcons
-        name='envelope'
-        color='#727c8e'
-        size={22}
-        style={styles['icon']}
+        name={props.nameIcon}
+        color={props.colorIcon}
+        size={props.size}
+        style={styles[props.styleIcon]}
       />
       <TextInput
-        placeholder='Email Address'
-        placeholderTextColor='#727c8e'
-        style={styles['input-box']}
+        placeholder={props.placeholder}
+        placeholderTextColor={props.placeholderTextColor}
+        style={styles[props.styleTextInput]}
       />
     </View>
   )
 }
 
+InputBox.propTypes = {
+  styleBox: PropTypes.string,
+  nameIcon: PropTypes.string,
+  colorIcon: PropTypes.string,
+  styleIcon: PropTypes.string,
+  size: PropTypes.string,
+  placeholder: PropTypes.string,
+  placeholderTextColor: PropTypes.string,
+  styleTextInput: PropTypes.string
+}
+
+export default InputBox
+
 const styles = StyleSheet.create({
-  container: {
+  'container-email': {
     borderRadius: 7,
+    overflow: 'hidden',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#ffffff',
+    borderColor: 'red'
+
+  },
+  'container-password': {
+    borderRadius: 7,
+    marginVertical: 2,
     overflow: 'hidden', // ketika keluar dari ukuran maka otomatis kehidden
     flexDirection: 'row',
     alignItems: 'center',
@@ -39,7 +57,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 20
   },
-  'input-box': {
+  'input-box-email': {
+    flex: 1,
+    height: 45,
+    fontFamily: 'Nunito-Regular',
+    fontSize: 14,
+    color: '#727c8e',
+    includeFontPadding: false,
+    paddingRight: 30
+  },
+  'input-box-password': {
     flex: 1,
     height: 45,
     fontFamily: 'Nunito-Regular',
@@ -49,5 +76,3 @@ const styles = StyleSheet.create({
     paddingRight: 30
   }
 })
-
-export default InputBox
