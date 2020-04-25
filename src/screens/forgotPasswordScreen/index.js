@@ -8,8 +8,7 @@ import {
   Image,
   YellowBox,
   TouchableHighlight,
-  FlatList,
-  TouchableOpacity
+  FlatList
 } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
