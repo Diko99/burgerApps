@@ -178,13 +178,17 @@ class LoginScreen extends Component {
   renderOptForgotPassword = () => {
     return (
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={this.onForgotPassword}
       >
         <Text style={styles['onboarding__option__text']}>
           Forgot Password?
         </Text>
       </TouchableOpacity>
     )
+  }
+
+  onForgotPassword = () => {
+    this.props.navigation.navigate('ForgotPasswordScreen')
   }
 
   renderSubmitButton = () => {
@@ -203,13 +207,17 @@ class LoginScreen extends Component {
     return (
       <TouchableOpacity
         style={styles['onboarding__sign-up']}
-        onPress={() => {}}
+        onPress={this.onSignUpScreen}
       >
         <Text style={styles['onboarding__sign-up__text']}>
           New user? Sign up
         </Text>
       </TouchableOpacity>
     )
+  }
+
+  onSignUpScreen = () => {
+    this.props.navigation.navigate('SignUpScreen')
   }
 
   renderFooter = () => {

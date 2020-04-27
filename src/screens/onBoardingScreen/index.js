@@ -11,6 +11,7 @@ import {
   YellowBox,
   TouchableHighlight
 } from 'react-native'
+import PropTypes from 'prop-types'
 
 class OnBoardingScreen extends Component {
   constructor (props) {
@@ -122,11 +123,26 @@ class OnBoardingScreen extends Component {
         style={styles['onboarding__button']}
         activeOpacity={0.6}
         underlayColor="#ed941a"
-        onPress={() => {}}>
-        <Text style={styles['onboarding__button__text']}> Get Start Here </Text>
+        onPress={this.onStartHere}
+      >
+        <Text
+          style={styles['onboarding__button__text']}
+        >
+          Get Start Here
+        </Text>
       </TouchableHighlight>
     )
   };
+
+  onStartHere = () => {
+    return (
+      this.props.navigation.navigate('LoginScreen')
+    )
+  }
+}
+
+OnBoardingScreen.propTypes = {
+  navigation: PropTypes.object
 }
 
 const styles = StyleSheet.create({
